@@ -1,0 +1,7 @@
+name: 'Deploy to AWS S3'
+description: 'Deploy a static website via AWS S3'
+runs:
+  using: 'node20' # When creating a java script action node js runtime must be defined
+  main: 'main.js' # Name of the js file which should be executed by this action
+  # More js files can be defined which should be executed before and after main with keys: pre & post (e. g. for cleanup); doc: https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions
+
