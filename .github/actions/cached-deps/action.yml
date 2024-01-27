@@ -6,17 +6,24 @@ inputs: # Use inputs so that users can configure the custom action
     description: 'Whether to cache dependencies or not.' # Description is required
     required: false # Decide if action will fail if input value is not provided or if the value is not needed
     default: 'true' # Make sure when input value is not provided that the action will not fail due to missconfiguration
+outputs: # define outputs on the same lavel as inputs
+  used-cache:
+    description: 'Whether the cache was used.'
+    value: ${{ steps.install.output.cache }}  # get the input value from step "Install dependencies" (cache='${{ inputs.caching }}) and use it as output
 runs:
   using: 'composite' # Must be composite -> tell GHA it is a composite action
   steps:
     - name: Cache dependencies
-      if: inputs.caching == 'true' # Use this cahcing step only if input value is true
+      if: inputs.caching == 'true' # Use this caching step only if input value is true
       id: cache
       uses: actions/cache@v3 # Other actions can be used in own custom action
       with:
         path: node_modules
         key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
     - name: Install dependencies
+      id: install
       if: steps.cache.outputs.cache-hit != 'true' || inputs.caching != 'true'
-      run: npm ci
+      run: | # set the cache output of this step to the value of the caching input
+        npm ci
+        echo "cache='${{ inputs.caching }}'" >> $GITHUB_OUTPUT
       shell: bash # When using the key "run" the shell must be specified for executing the step
