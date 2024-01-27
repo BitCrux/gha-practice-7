@@ -11,6 +11,8 @@ jobs:
         uses: actions/checkout@v3 # Checkout step must be here because the composite step is only part of this repository. Before local composite step can be used the code must be get. (If composite step is in own repo, checkout can be moved also there...)
       - name: Load & cache dependencies # Use the custom (composite) action 
         uses: ./.github/actions/cached-deps # Value depend on where the actions is located. For actions located in own repo <github user name>/<repository name> -> e. g. BitCrux/my-action
+        with: # Decide if caching should be used for linting or not. Provide input value to custom composite action in .github/actions/cached-deps
+          caching: 'false' # In this case caching will not be used for job 'lint'
       - name: Lint code
         run: npm run lint
   test:
