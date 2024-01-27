@@ -9,7 +9,7 @@ inputs: # Use inputs so that users can configure the custom action
 outputs: # define outputs on the same lavel as inputs
   used-cache:
     description: 'Whether the cache was used.'
-    value: ${{ steps.install.output.cache }}  # get the input value from step "Install dependencies" (cache='${{ inputs.caching }}) and use it as output
+    value: ${{ steps.install.outputs.cache }}  # get the input value from step "Install dependencies" (cache='${{ inputs.caching }}) and use it as output
 runs:
   using: 'composite' # Must be composite -> tell GHA it is a composite action
   steps:
