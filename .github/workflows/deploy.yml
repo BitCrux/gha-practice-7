@@ -67,5 +67,7 @@ jobs:
   information: # Use the js action .github/actions/deploy-s3-js
     runs-on: ubuntu-latest
     steps:
+      - name: Get code
+        uses: actions/checkout@v3
       - name: Run custom action
         uses: ./.github/actions/deploy # JS Actions require the node_modules folder to be able to run! Therefore do not ignore it in .gitignore!
