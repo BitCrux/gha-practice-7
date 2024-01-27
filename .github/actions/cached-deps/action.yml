@@ -1,0 +1,16 @@
+# Custom action (composite) must be named action.yml
+name: 'Get & Cache Dependencies'
+description: 'Get the dependencies (via npm) and cache them.'
+runs:
+  using: 'composite' # Must be composite -> tell GHA it is a composite action
+  steps:
+    - name: Cache dependencies
+      id: cache
+      uses: actions/cache@v3 # Other actions can be used in own custom action
+      with:
+        path: node_modules
+        key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+    - name: Install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm ci
+      shell: bash # When using the key "run" the shell must be specified for executing the step

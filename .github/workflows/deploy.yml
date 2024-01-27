@@ -8,16 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get code
-        uses: actions/checkout@v3
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-      - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+        uses: actions/checkout@v3 # Checkout step must be here because the composite step is only part of this repository. Before local composite step can be used the code must be get. (If composite step is in own repo, checkout can be moved also there...)
+      - name: Load & cache dependencies # Use the custom (composite) action 
+        uses: ./.github/actions/cached-deps # Value depend on where the actions is located. For actions located in own repo <github user name>/<repository name> -> e. g. BitCrux/my-action
       - name: Lint code
         run: npm run lint
   test:
