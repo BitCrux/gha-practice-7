@@ -1,5 +1,16 @@
 name: 'Deploy to AWS S3'
 description: 'Deploy a static website via AWS S3'
+inputs: # example with AWS Bucket S3
+  bucket: # Input is the bucket name
+    description: 'The S3 bucket name.'
+    required: true # Input as bucket name could be everything after all, therefore it is required
+  bucket-region: # In AWS you have to select a region where you bucket will be hosted
+    description: 'The region of the S3 bucket.'
+    required: false
+    default: 'us-east-1' # Default value is a guess here; us-east-1 is the default region when you have not picked one in AWS (it is a assumption)
+  dist-folder:
+    description: 'The folder containing the deployment files.'
+    required: true
 runs:
   using: 'node20' # When creating a java script action node js runtime must be defined
   main: 'main.js' # Name of the js file which should be executed by this action
