@@ -11,6 +11,9 @@ inputs: # example with AWS Bucket S3
   dist-folder:
     description: 'The folder containing the deployment files.'
     required: true
+outputs: # Provide the AWS hosted website url as output to GitHub action so that user can lick on it when action finishes.
+  website-url: 
+    description: 'The URL of the deployed website.'
 runs:
   using: 'node20' # When creating a java script action node js runtime must be defined
   main: 'main.js' # Name of the js file which should be executed by this action

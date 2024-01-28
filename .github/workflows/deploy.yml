@@ -63,6 +63,7 @@ jobs:
       - name: Output contents
         run: ls
       - name: Deploy site
+        id: deploy
         uses: ./.github/actions/deploy # Use the custom js action
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} # Use the access keys generated in AWS and defined in GitHub Repository Secrets.
@@ -71,3 +72,6 @@ jobs:
           bucket: gha-custom-action-hosting # Provide bucket name
           dist-folder: ./dist # Point to the dist folder which contains the downloaded artifacts, so that they can be uploaded to AWS
           # bucket-region: us-east-2 # Not required, default will be used
+      - name: Output information # Output the AWS hosted website URL
+        run: |
+          echo "Live URL: ${{ steps.deploy.outputs.website-url }}"

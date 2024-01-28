@@ -20,8 +20,10 @@ async function run() {
     // Set environment variable in GitHub with the access key as value and access it in the workflow deploy.yml
     exec.exec(`aws s3 sync ${distFolder} ${s3Uri} --region ${bucketRegion}`) // Execute command in AWS cli tool aws s3 sync <local-folder> <s3-bucket> 
     
+    const websiteUrl = `http://${bucket}.s3-website-${bucketRegion}.amazonaws.com` // URL of the AWS hosted website
+    core.setOutput('website-url', websiteUrl) // setOutput is equal to the echo command. Custom js action will output this URL.
 
-    core.notice('Hello from my custom JavaScript Action!') // core gives access to utility methods & feature like notice, which is used to log messages to the GitHub Actions workflow log
+    //core.notice('Hello from my custom JavaScript Action!') // core gives access to utility methods & feature like notice, which is used to log messages to the GitHub Actions workflow log
 }
 
 // run in folder ./github/actions/deploy-s3-javascript npm init -y to create package.json (node js required on machine)
